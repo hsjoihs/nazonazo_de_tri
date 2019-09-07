@@ -92,7 +92,32 @@ class SortNazonazoBot:
             self.__dictionaries = dictionaries
         except:
             print('failed to find or read dictionary list file. check your dictionary list file')
-            
+
+    # 指定したファイルパスからファイルを読んでfull辞書を読み込む
+    def read_full_dictionaries(self, file_path:str):
+        try:
+            dictionary_list_file = open(file_path, 'r')
+            dictionaries:List[NazonazoDictionary] = []
+            for dictionary_file_name in dictionary_list_file:
+                print(dictionary_file_name.replace('\n',''), end='')
+                info = dictionary_file_name.split(' ')
+                if len(info) != 2:
+                    print('invalid file format.')
+                    continue
+                try:
+                    dictionary_file = open(info[0], 'r')
+                    dic:NazonazoList = []
+                    for sentence in dictionary_file:
+                        tmp = sentence.replace('\n','').split(' ')
+                        dic.append(Nazonazo(tmp[0], sorted(tmp[0])))
+                    dictionaries.append(NazonazoDictionary(dic, info[1].replace('\n', '')))
+                    print(' size : ' + str(len(dic)))
+                except:
+                    print('file could not read')
+            self.__full_dictionaries = dictionaries
+        except:
+            print('failed to find or read dictionary list file. check your dictionary list file')    
+        
     def reset(self):
         self.__nazonazo = None
         self.__answers = None
@@ -114,10 +139,27 @@ class SortNazonazoBot:
             return -1
         else:
             return tmp[0].get_size()
+    
+    # 指定した名前で管理されるfull辞書の単語数を取得
+    def get_full_dic_size(self, dic:str):
+        tmp = list(filter(lambda x:x.get_cmd() == dic, self.__full_dictionaries))
+        if len(tmp) <= 0:
+            return -1
+        else:
+            return tmp[0].get_size()
 
     # 辞書選択の状態を変更 辞書は状態として複数選択が可能
     def set_dic_selected(self, dic:str, status:bool):
         tmp = list(filter(lambda x:x.get_cmd() == dic, self.__dictionaries))
+        if len(tmp) <= 0:
+            print('log: ' + dic + ' not found.')
+        else:
+            print('log: set ' + dic + '(' + str(tmp[0].is_selected()) + ') to ' + str(status))
+            tmp[0].set_selected(status)
+
+    # full辞書選択の状態を変更 辞書は状態として複数選択が可能
+    def set_full_dic_selected(self, dic:str, status:bool):
+        tmp = list(filter(lambda x:x.get_cmd() == dic, self.__full_dictionaries))
         if len(tmp) <= 0:
             print('log: ' + dic + ' not found.')
         else:
@@ -140,9 +182,17 @@ class SortNazonazoBot:
     def get_dic_name_list(self):
         return list(map(lambda x:x.get_cmd(), self.__dictionaries))
 
+    # 保持する全てのfull辞書の名前をリストで取得
+    def get_full_dic_name_list(self):
+        return list(map(lambda x:x.get_cmd(), self.__full_dictionaries))
+
     # 保持する全ての辞書の名前と登録単語数をリストで取得
     def get_all_dic_status(self):
         return list(map(lambda x:x.get_status(), self.__dictionaries))
+    
+    # 保持する全てのfull辞書の名前と登録単語数をリストで取得
+    def get_all_full_dic_status(self):
+        return list(map(lambda x:x.get_status(), self.__full_dictionaries))
 
     # 現在出題している問題を取得 ない場合は None
     def get_problem(self) -> Nazonazo:
@@ -163,6 +213,10 @@ class SortNazonazoBot:
             print('log WARN : dic not found. failed to fetch nazonazo')
             return False
         self.__nazonazo = dic[random.randrange(len(dic))]
+        # append some more
+        for j in self.__full_dictionaries:
+            dic.extend(j.get_dictionary())
+            print('log : append full ' + j.get_cmd())
         self.__answers = set()
         for i in dic:
             self.__answers.add(i.answer)

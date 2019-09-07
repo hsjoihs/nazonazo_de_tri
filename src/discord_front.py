@@ -37,6 +37,16 @@ for i in bot.get_dic_name_list():
 if num == 0:
     print('problem not found')
     sys.exit()
+bot.read_full_dictionaries('full_dic_list')
+print('full dictionary info : ')
+print(bot.get_all_full_dic_status())
+num = 0
+for i in bot.get_full_dic_name_list():
+    print('loaded full dic name : ' + i)
+    num += bot.get_full_dic_size(i)
+if num == 0:
+    print('problem not found')
+    sys.exit()
 token = read_token()
 active_channel_id = read_active_channel_id()
 lock = asyncio.Lock()
@@ -287,11 +297,18 @@ async def on_message(message):
                     response = '現在問題は出されていません'
                     await message.channel.send(response)
             elif cmd == '-dic-status':
-                print('log : dic call')
+                print('log : dic-status call')
                 response = '現在の辞書の状態は以下です\n'
                 state = bot.get_all_dic_status()
                 for i in state:
                     response += '辞書名 : ' + i[0] + ' , 問題数 : ' + str(i[1]) + ' , 出題対象 : ' + str(i[2]) + '\n'
+                await message.channel.send(response)
+            elif cmd == '-full-dic-status':
+                print('log : full-dic-status call')
+                response = '現在のfull辞書の状態は以下です\n'
+                state = bot.get_all_full_dic_status()
+                for i in state:
+                    response += 'full辞書名 : ' + i[0] + ' , 問題数 : ' + str(i[1]) + ' , 出題対象 : ' + str(i[2]) + '\n'
                 await message.channel.send(response)
             elif cmd == '-hint':
                 print('log : hint call')
