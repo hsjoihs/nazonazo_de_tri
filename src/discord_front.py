@@ -224,6 +224,9 @@ async def check_contest_answer(message):
     elif bot.check_another_answer(message.content, str(message.author)):
         response = str(message.author) + ' さん、 \"' + message.content + '\" は非想定解ですが正解です！'
         await message.channel.send(response)
+    elif bot.check_another_answer_full(message.content, str(message.author)):
+        response = str(message.author) + ' さん、 \"' + message.content + '\" は選択されている辞書にない非想定解ですが正解です！'
+        await message.channel.send(response)
 
 def get_cmd_list():
     return """

@@ -343,6 +343,14 @@ class SortNazonazoBot:
         self.__answers = set()
         for i in dic:
             self.__answers.add(i.answer)
+        full_dic = []
+        # append some more
+        for j in self.__full_dictionaries:
+            full_dic.extend(j.get_dictionary())
+            print('log : append full ' + j.get_cmd())
+        self.__full_answers = set()
+        for i in full_dic:
+            self.__full_answers.add(i.answer)
         return True
 
     def get_contest_problem_num(self):
