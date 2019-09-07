@@ -121,6 +121,7 @@ class SortNazonazoBot:
     def reset(self):
         self.__nazonazo = None
         self.__answers = None
+        self.__full_answers = None
         self.__winner = []
         self.__another_winner = {}
         self.__contest_count = 0
@@ -213,13 +214,17 @@ class SortNazonazoBot:
             print('log WARN : dic not found. failed to fetch nazonazo')
             return False
         self.__nazonazo = dic[random.randrange(len(dic))]
-        # append some more
-        for j in self.__full_dictionaries:
-            dic.extend(j.get_dictionary())
-            print('log : append full ' + j.get_cmd())
         self.__answers = set()
         for i in dic:
             self.__answers.add(i.answer)
+        full_dic = []
+        # append some more
+        for j in self.__full_dictionaries:
+            full_dic.extend(j.get_dictionary())
+            print('log : append full ' + j.get_cmd())
+        self.__full_answers = set()
+        for i in full_dic:
+            self.__full_answers.add(i.answer)
         return True
 
     # 辞書を選択して出題する
@@ -239,6 +244,14 @@ class SortNazonazoBot:
         self.__answers = set()
         for i in dic:
             self.__answers.add(i.answer)
+        full_dic = []
+        # append some more
+        for j in self.__full_dictionaries:
+            full_dic.extend(j.get_dictionary())
+            print('log : append full ' + j.get_cmd())
+        self.__full_answers = set()
+        for i in full_dic:
+            self.__full_answers.add(i.answer)
         return True
 
     # 問題が生成されている状態かどうかを返す
@@ -268,6 +281,18 @@ class SortNazonazoBot:
                 self.__another_winner[ans] = user
                 return True
         return False
+    
+    # 受け取った答えがfull非想定解か判定する
+    # 同じ解答を複数人がする事に対応していない
+    def check_another_answer_full(self, ans:str, user:str = None) -> bool:
+        if self.__nazonazo is None:
+            print('log WARN : problem is not generated')
+            return False
+        if sorted(ans) == sorted(self.__nazonazo.answer) and ans != self.__nazonazo.answer and ans in self.__full_answers:
+            if ans not in self.__another_winner:
+                self.__another_winner[ans] = user
+                return True
+        return False
 
     # 現在の正解者リストを取得
     def get_winnter(self):
@@ -289,6 +314,7 @@ class SortNazonazoBot:
     def end_problem(self):
         self.__nazonazo = None
         self.__answers = None
+        self.__full_answers = None
         self.__another_winner = {}
         self.__winner = []
 
@@ -378,6 +404,7 @@ class SortNazonazoBot:
         self.__contest_problem_num = 0
         self.__contest_problems = None
         self.__answers = None
+        self.__full_answers = None
 
 def test(src):
     try:
