@@ -1,4 +1,6 @@
-# sort_nazonazo
+# nazonazo_de_tri
+
+[てぃーいけ(1119-2916)さんのsort_nazonazo](https://github.com/1119-2916/sort_nazonazo)をフランス語用にカスタマイズしたbot
 
 ## 動作確認をした環境
 
@@ -31,3 +33,9 @@ run.sh で実行します。
 ./src/dictionary_list にファイル名を追加して下さい。
 
 詳しくは既存の 8moji.dic, dictionary_list を見ていただければと思います。
+
+非想定解検索用の大きな辞書を追加できます。こちらは各行に単語だけを載せておけばよくて、full_dic_listにファイル名を追加してください。
+
+## フランス語用機能
+
+英語版Wiktionaryの#Frenchへのリンクを勝手に貼ってくれます
