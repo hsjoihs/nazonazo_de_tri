@@ -177,21 +177,21 @@ async def run_unrated(message):
 async def check_answer(message):
     if bot.check_answer(message.content, str(message.author)):
         win = bot.get_winnter()
-        response = win[0] + ' さん、正解です！\n' + '正解は\"' + message.content + '\"でした！'
+        response = win[0] + ' さん、正解です！\n' + '正解は\"' + message.content + '\"でした！\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
         await message.channel.send(response)
         bot.end_problem()
     elif bot.check_another_answer(message.content, str(message.author)):
-        response = str(message.author) + ' さん、 \"' + message.content + '\" は非想定解ですが正解です！'
+        response = str(message.author) + ' さん、 \"' + message.content + '\" は非想定解ですが正解です！\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
         await message.channel.send(response)
     elif bot.check_another_answer_full(message.content, str(message.author)):
-        response = str(message.author) + ' さん、 \"' + message.content + '\" は選択されている辞書にない非想定解ですが正解です！'
+        response = str(message.author) + ' さん、 \"' + message.content + '\" は選択されている辞書にない非想定解ですが正解です！\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
         await message.channel.send(response)
 
 # 答えを判定する(コンテスト中)
 async def check_contest_answer(message):
     if bot.check_answer(message.content, str(message.author)):
         win = bot.get_winnter()
-        response = win[0] + ' さん、正解です！\n' + '正解は\"' + message.content + '\"でした！'
+        response = win[0] + ' さん、正解です！\n' + '正解は\"' + message.content + '\"でした！\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
         await message.channel.send(response)
         bot.end_contest_problem()
         print('contest running is : ' + str(bot.contest_running()))
@@ -222,10 +222,10 @@ async def check_contest_answer(message):
             await message.channel.send(response)
             bot.end_contest()
     elif bot.check_another_answer(message.content, str(message.author)):
-        response = str(message.author) + ' さん、 \"' + message.content + '\" は非想定解ですが正解です！'
+        response = str(message.author) + ' さん、 \"' + message.content + '\" は非想定解ですが正解です！\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
         await message.channel.send(response)
     elif bot.check_another_answer_full(message.content, str(message.author)):
-        response = str(message.author) + ' さん、 \"' + message.content + '\" は選択されている辞書にない非想定解ですが正解です！'
+        response = str(message.author) + ' さん、 \"' + message.content + '\" は選択されている辞書にない非想定解ですが正解です！\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
         await message.channel.send(response)
 
 def get_cmd_list():
@@ -296,7 +296,7 @@ async def on_message(message):
             elif cmd == '-giveup':
                 print('log : giveup call')
                 if bot.is_generated():
-                    response = '正解は\"' + bot.get_problem().answer + '\"でした...'
+                    response = '正解は\"' + bot.get_problem().answer + '\"でした...\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
                     await message.channel.send(response)
                     bot.end_problem()
                 else:
