@@ -266,7 +266,7 @@ async def on_message(message):
             if cmd == '-echo':
                 response = bot.echo(message.content)
                 await message.channel.send(response)
-            elif cmd == '-kick();' or cmd == '-kick()' or cmd == '-kick' or cmd == '-kick;':
+            elif cmd == '-kick();':
                 print('log : kick call')
                 await message.channel.send('ヒィンｗ')
             elif cmd == '-bye':
