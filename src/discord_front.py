@@ -296,7 +296,7 @@ async def on_message(message):
             elif cmd == '-giveup':
                 print('log : giveup call')
                 if bot.is_generated():
-                    response = '正解は\"' + bot.get_problem().answer + '\"でした...\nhttps://en.wiktionary.org/wiki/' + message.content + '#French'
+                    response = '正解は\"' + bot.get_problem().answer + '\"でした...\nhttps://en.wiktionary.org/wiki/' + bot.get_problem().answer + '#French'
                     await message.channel.send(response)
                     bot.end_problem()
                 else:
