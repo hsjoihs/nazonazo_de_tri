@@ -266,9 +266,15 @@ async def on_message(message):
             if cmd == '-echo':
                 response = bot.echo(message.content)
                 await message.channel.send(response)
-            elif cmd == '-kick();' or cmd == '-kick()' or cmd == '-kick' or cmd == '-kick;':
+            elif cmd == '-kick();':
                 print('log : kick call')
                 await message.channel.send('ヒィンｗ')
+            elif cmd == '-kick()' or cmd == '-kick' or cmd == '-kick;':
+                print('log : failed kick call')
+                await message.channel.send('申し訳ないのですが、 kick(); は kick(); の形式以外認められません…')
+            elif cmd.startswith('-kick(') and cmd.endsWith(');'):
+                print('log : failed kick call')
+                await message.channel.send('error: too many arguments to function ‘void kick()’')
             elif cmd == '-bye':
                 print('log : bye call')
                 await run_quit(message)
@@ -283,6 +289,9 @@ async def on_message(message):
             elif cmd == '-pro':
                 print('log : pro call')
                 await message.channel.send('はいプロ 世界一ソートなぞなぞが上手 ソートなぞなぞ界のtourist ソートなぞなぞするために生まれてきた者')
+            elif cmd == '-opr':
+                print('log : opr call')
+                await message.channel.send('    iorsttuいがきすぞぞぞぞぞぞたたてななななななにのはまめるれソソソトトトプローーー一上世手生界界者')
             elif cmd == '-prob':
                 print('log : prob call')
                 if not bot.is_generated():
